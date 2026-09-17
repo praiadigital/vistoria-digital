@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vistoria Digital — Checklist Interativo de Imóveis | Praia Digital</title>
+<meta name="description" content="Checklist interativo de vistoria de imóveis com pontuação automática e relatório imprimível. Ideal para locação de temporada e compra no litoral.">
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#fff1f2;color:#881337;line-height:1.6}
+nav{background:#be123c;padding:12px 20px;display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:#ffe4e6;text-decoration:none;font-weight:600;font-size:.95em}
+nav a:hover{color:#fff}
+.hero{background:linear-gradient(135deg,#be123c,#f43f5e);color:#fff;padding:50px 20px;text-align:center}
+.container{max-width:960px;margin:0 auto;padding:30px 20px}
+.card{background:#fff;border-radius:12px;padding:24px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.item{display:flex;align-items:center;gap:10px;padding:8px;border-bottom:1px solid #ffe4e6}
+.item input{width:20px;height:20px}
+button{background:#f43f5e;color:#fff;border:0;padding:12px 26px;border-radius:8px;font-weight:700;cursor:pointer;margin:6px 6px 0 0;font-size:1em}
+#out{margin-top:14px;font-weight:700;color:#be123c}
+footer{text-align:center;padding:24px;color:#64748b;font-size:.9em}
+@media print{nav,.hero,button,footer,.noprint{display:none}}
+</style>
+</head>
+<body>
+<nav>
+<a href="https://praia.digital/">🌊 Praia Digital</a>
+<a href="https://praiadigital.github.io/apps/">🗂️ Todos os Apps</a>
+<a href="https://praiadigital.github.io/radar-imoveis/">Radar</a>
+<a href="https://praiadigital.github.io/comparador-bairros/">Comparador</a>
+<a href="https://praiadigital.github.io/vistoria-digital/">Vistoria</a>
+<a href="https://praiadigital.github.io/custo-compra/">Custo de Compra</a>
+<a href="https://praiadigital.github.io/area-anfitriao/">Anfitrião</a>
+</nav>
+<div class="hero"><h1>🔍 Vistoria Digital</h1><p>Checklist interativo com pontuação automática e relatório pronto para imprimir ou salvar em PDF.</p></div>
+<div class="container">
+<div class="card">
+<h2>Checklist de vistoria</h2>
+<div id="lista"></div>
+<button onclick="avaliar()">🔍 Avaliar imóvel</button>
+<button onclick="window.print()">🖨️ Imprimir / PDF</button>
+<button onclick="limpar()">↺ Limpar</button>
+<div id="out"></div>
+</div>
+<div class="card noprint">
+<h2>Para anfitriões e corretores</h2>
+<p>Use este checklist no check-in/check-out de temporada ou na visita de compra. Combine com: 🌟 <a href="https://praiadigital.github.io/area-anfitriao/">Área do Anfitrião</a> · 🤖 <a href="https://praiadigital.github.io/hermes-agents/">Hermes Agents</a> · 🧮 <a href="https://praiadigital.github.io/custo-compra/">Custo Real de Compra</a></p>
+</div>
+</div>
+<footer>Parte da rede <a href="https://praia.digital/">praia.digital</a> — <a href="https://praiadigital.github.io/apps/">todos os apps</a></footer>
+<script>
+const itens=["Estrutura: sem rachaduras ou infiltrações","Elétrica: tomadas e disjuntores funcionando","Hidráulica: sem vazamentos, boa pressão","Esquadrias e vidros íntegros","Ar-condicionado / ventilação OK","Wi-Fi testado e senha disponível","Enxoval e mobília conforme inventário","Eletrodomésticos funcionando","Fechaduras e chaves (ou fechadura digital)","Documentação do imóvel em dia","Limpeza profissional realizada","Fotos de todos os cômodos registradas"];
+document.getElementById('lista').innerHTML=itens.map((t,i)=>`<label class="item"><input type="checkbox" id="c${i}">${t}</label>`).join('');
+function avaliar(){const ok=itens.filter((_,i)=>document.getElementById('c'+i).checked).length;const pct=Math.round(ok/itens.length*100);let ver=pct>=90?'✅ Aprovado — imóvel pronto':pct>=70?'⚠️ Atenção — pendências menores':'❌ Reprovado — revisar antes de anunciar';document.getElementById('out').innerHTML=`${ok}/${itens.length} itens OK (${pct}%) — ${ver}`}
+function limpar(){itens.forEach((_,i)=>document.getElementById('c'+i).checked=false);document.getElementById('out').innerHTML=''}
+</script>
+</body>
+</html>
